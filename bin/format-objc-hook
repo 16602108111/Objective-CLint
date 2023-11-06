@@ -105,13 +105,12 @@ function format_objc() {
 
   objc_files=$(objc_files_to_format)
   #自动校验整个库
-  if("${repo_auto_fix}" == 1);then
+  if(("${repo_auto_fix}" == 1));then
     objc_files=$(all_valid_objc_files_in_repo)
     auto_fix=1
   else
     objc_files=$(objc_files_to_format)
   fi
-
   # if not have check files quit process
   if [ -z "$objc_files" ]; then
     log 'not find can check object-c files'
