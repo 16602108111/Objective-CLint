@@ -16,6 +16,7 @@ Reporter="terminal"
 Output_Path=""
 Quiet=0
 auto_fix=0
+repo_auto_fix=0
 file_paths=()
 
 function help() {
@@ -59,6 +60,11 @@ while [ $# -gt 0 ]; do
     shift
     continue
     ;;
+  --repo-auto-fix)
+    repo_auto_fix=1
+    shift
+    continue
+    ;;
   --version | -v)
     print_version
     shift
@@ -98,6 +104,13 @@ fi
 function format_objc() {
 
   objc_files=$(objc_files_to_format)
+  #自动校验整个库
+  if("${repo_auto_fix}" == 1);then
+    objc_files=$(all_valid_objc_files_in_repo)
+    auto_fix=1
+  else
+    objc_files=$(objc_files_to_format)
+  fi
 
   # if not have check files quit process
   if [ -z "$objc_files" ]; then
